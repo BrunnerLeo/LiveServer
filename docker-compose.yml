@@ -1,0 +1,13 @@
+services:
+  liveserver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    command: >
+      sh -c "mkdir -p /var/www/html/database /var/www/html/logs /var/www/html/uploads/projects
+      && chown -R www-data:www-data /var/www/html/database /var/www/html/logs /var/www/html/uploads
+      && apache2-foreground"

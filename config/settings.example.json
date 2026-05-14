@@ -1,0 +1,79 @@
+{
+  "version": "00.00.22",
+  "school": {
+    "name": "Liveserver Schule",
+    "logo": ""
+  },
+  "theme": {
+    "primary": "#155eef",
+    "secondary": "#0f766e",
+    "accent": "#f59e0b",
+    "background": "#f7f9fc",
+    "surface": "#ffffff",
+    "text": "#172033"
+  },
+  "texts": {
+    "loginHint": "Melde dich mit deinem Schul-Benutzernamen und Passwort an. Bei Problemen wende dich bitte an das Sekretariat oder die IT-Betreuung.",
+    "signupHint": "Erstelle dein Schülerkonto. Dein Passwort wird sicher gehasht gespeichert.",
+    "publicIntro": "Sicherer Zugriff auf persönliche Schulmaterialien, Profildaten und freigegebene Inhalte."
+  },
+  "registration": {
+    "enabled": true,
+    "message": "Registrierung ist für neue Schülerkonten aktiviert."
+  },
+  "security": {
+    "sessionName": "LIVESERVER_SESSION",
+    "secureCookie": false,
+    "sameSite": "Strict",
+    "showDetailedErrors": false
+  },
+  "database": {
+    "driver": "sqlite",
+    "sqlitePath": "{PROJECT_ROOT}/database/liveserver.sqlite",
+    "passwordAlgorithm": "argon2id"
+  },
+  "projects": {
+    "uploadPath": "{PROJECT_ROOT}/uploads/projects",
+    "maxUploadBytes": 10485760
+  },
+  "studentContent": {
+    "default": [
+      {
+        "id": "vertretungsplan",
+        "title": "Vertretungsplan",
+        "description": "Allgemeine Informationen zum aktuellen Schultag.",
+        "type": "Allgemein",
+        "url": "#"
+      },
+      {
+        "id": "schulordnung",
+        "title": "Schulordnung",
+        "description": "Wichtige Regeln und Hinweise für den Schulalltag.",
+        "type": "Dokument",
+        "url": "#"
+      }
+    ],
+    "byUserId": {
+      "1": [
+        {
+          "id": "mathematik-klasse",
+          "title": "Mathematik Aufgabenpaket",
+          "description": "Persönlich freigegebenes Aufgabenpaket für diese Benutzer-ID.",
+          "type": "Aufgabe",
+          "url": "#"
+        }
+      ]
+    },
+    "byUsername": {
+      "max.mustermann": [
+        {
+          "id": "projektmappe",
+          "title": "Projektmappe",
+          "description": "Zusätzliche Freigabe nur für diesen Benutzernamen.",
+          "type": "Projekt",
+          "url": "#"
+        }
+      ]
+    }
+  }
+}

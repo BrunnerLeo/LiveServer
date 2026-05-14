@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/dashboard.js?v=00.00.22" defer></script>
+</head>
+<body data-page="dashboard">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="dashboard.html" aria-current="page">Dashboard</a>
+            <a href="projekte.html">Projekte</a>
+            <a href="profil.html">Profil</a>
+            <a href="einstellungen.html">Einstellungen</a>
+            <button class="nav-button" type="button" data-logout>Abmelden</button>
+        </nav>
+    </header>
+
+    <main class="app-shell">
+        <section class="welcome-band" aria-labelledby="dashboard-heading">
+            <div>
+                <p class="eyebrow">Persönlicher Bereich</p>
+                <h1 id="dashboard-heading">Willkommen, <span data-user="realname">Schüler</span></h1>
+                <p>Hier werden deine Kontodaten und aktuellen Projektaktivitäten angezeigt.</p>
+            </div>
+            <div class="status-pill" id="session-status">Session wird geprüft</div>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Dashboard">
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Kontodaten</h2>
+                </div>
+                <dl class="data-list">
+                    <div>
+                        <dt>Benutzername</dt>
+                        <dd data-user="username">-</dd>
+                    </div>
+                    <div>
+                        <dt>Benutzer-ID</dt>
+                        <dd data-user="id">-</dd>
+                    </div>
+                    <div>
+                        <dt>Rolle</dt>
+                        <dd data-user="role">-</dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="panel wide">
+                <div class="panel-heading">
+                    <h2>Projektaktivitäten</h2>
+                    <span class="count-badge" id="dashboard-project-count">0</span>
+                </div>
+                <div class="content-list" id="dashboard-project-list" aria-live="polite">
+                    <p class="empty-state">Projektaktivitäten werden geladen.</p>
+                </div>
+                <div class="panel-footer">
+                    <a class="button primary compact" href="projekte.html">Projekte öffnen</a>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

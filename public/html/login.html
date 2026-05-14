@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/login.js" defer></script>
+</head>
+<body data-page="login">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="../../index.html">Startseite</a>
+            <a href="signup.html" data-registration-link>Registrieren</a>
+        </nav>
+    </header>
+
+    <main class="auth-shell">
+        <section class="auth-panel" aria-labelledby="login-heading">
+            <div class="auth-copy">
+                <p class="eyebrow">Anmeldung</p>
+                <h1 id="login-heading">Schüler-Login</h1>
+                <p data-config="loginHint">Melde dich mit deinem Schul-Benutzernamen und Passwort an.</p>
+            </div>
+
+            <form class="form-stack" id="login-form" novalidate>
+                <div class="field-group">
+                    <label for="username">Benutzername</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required maxlength="100">
+                    <p class="field-error" id="username-error" aria-live="polite"></p>
+                </div>
+
+                <div class="field-group">
+                    <label for="password">Passwort</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required>
+                    <p class="field-error" id="password-error" aria-live="polite"></p>
+                </div>
+
+                <button class="button primary full-width" type="submit" id="login-submit">Einloggen</button>
+                <p class="form-message" id="login-message" aria-live="polite"></p>
+                <p class="subtle-note" id="registration-note"></p>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
