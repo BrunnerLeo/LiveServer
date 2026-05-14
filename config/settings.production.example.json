@@ -1,0 +1,44 @@
+{
+  "version": "00.00.22",
+  "school": {
+    "name": "Liveserver Schule",
+    "logo": ""
+  },
+  "theme": {
+    "primary": "#155eef",
+    "secondary": "#0f766e",
+    "accent": "#f59e0b",
+    "background": "#f7f9fc",
+    "surface": "#ffffff",
+    "text": "#172033"
+  },
+  "texts": {
+    "loginHint": "Melde dich mit deinem Schul-Benutzernamen und Passwort an. Bei Problemen wende dich bitte an die zuständige Betreuung.",
+    "signupHint": "Registrierung ist nur für freigegebene Benutzer gedacht.",
+    "publicIntro": "Sicherer Zugriff auf persönliche Schulmaterialien, Profildaten und freigegebene Inhalte."
+  },
+  "registration": {
+    "enabled": false,
+    "message": "Registrierung ist deaktiviert."
+  },
+  "security": {
+    "sessionName": "LIVESERVER_SESSION",
+    "secureCookie": true,
+    "sameSite": "Strict",
+    "showDetailedErrors": false
+  },
+  "database": {
+    "driver": "sqlite",
+    "sqlitePath": "{PROJECT_ROOT}/database/liveserver.sqlite",
+    "passwordAlgorithm": "argon2id"
+  },
+  "projects": {
+    "uploadPath": "{PROJECT_ROOT}/uploads/projects",
+    "maxUploadBytes": 10485760
+  },
+  "studentContent": {
+    "default": [],
+    "byUserId": {},
+    "byUsername": {}
+  }
+}

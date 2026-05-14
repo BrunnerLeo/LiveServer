@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profil | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/dashboard.js?v=00.00.22" defer></script>
+</head>
+<body data-page="profil">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="projekte.html">Projekte</a>
+            <a href="profil.html" aria-current="page">Profil</a>
+            <a href="einstellungen.html">Einstellungen</a>
+            <button class="nav-button" type="button" data-logout>Abmelden</button>
+        </nav>
+    </header>
+
+    <main class="app-shell narrow">
+        <section class="panel" aria-labelledby="profile-heading">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">Mein Konto</p>
+                    <h1 id="profile-heading">Profil bearbeiten</h1>
+                </div>
+            </div>
+
+            <form class="form-stack" id="profile-form" novalidate>
+                <div class="field-group">
+                    <label for="realname">Name</label>
+                    <input id="realname" name="realname" type="text" autocomplete="name" maxlength="150" required>
+                    <p class="field-error" id="realname-error" aria-live="polite"></p>
+                </div>
+
+                <div class="field-group">
+                    <label for="current-password">Aktuelles Passwort</label>
+                    <input id="current-password" name="currentPassword" type="password" autocomplete="current-password">
+                    <p class="field-hint">Nur erforderlich, wenn du dein Passwort ändern möchtest.</p>
+                </div>
+
+                <div class="field-group">
+                    <label for="new-password">Neues Passwort</label>
+                    <input id="new-password" name="newPassword" type="password" autocomplete="new-password" minlength="8">
+                    <p class="field-error" id="new-password-error" aria-live="polite"></p>
+                </div>
+
+                <button class="button primary" type="submit">Profil speichern</button>
+                <p class="form-message" id="profile-message" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

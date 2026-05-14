@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Liveserver Website</title>
+    <link rel="stylesheet" href="public/css/style.css?v=00.00.22">
+    <script src="public/js/api.js?v=00.00.22" defer></script>
+    <script src="public/js/dashboard.js?v=00.00.22" defer></script>
+</head>
+<body data-page="index">
+    <header class="site-header">
+        <a class="brand" href="index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="public/html/login.html" data-auth-link="login">Login</a>
+            <a href="public/html/signup.html" data-registration-link>Registrieren</a>
+            <a href="public/html/dashboard.html" data-auth-link="dashboard" hidden>Dashboard</a>
+        </nav>
+    </header>
+
+    <main class="public-shell">
+        <section class="hero-section">
+            <div class="hero-content">
+                <p class="eyebrow">Schulportal</p>
+                <h1 data-config="schoolName">Liveserver Website</h1>
+                <p class="hero-copy" data-config="publicIntro">
+                    Sicherer Zugriff auf persönliche Schulmaterialien, Profildaten und freigegebene Inhalte.
+                </p>
+                <div class="hero-actions">
+                    <a class="button primary" href="public/html/login.html">Einloggen</a>
+                    <a class="button secondary" href="public/html/signup.html" data-registration-link>Registrieren</a>
+                    <a class="button secondary" href="#informationen">Informationen</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-band" id="informationen" aria-labelledby="info-heading">
+            <div class="section-heading">
+                <p class="eyebrow">Für Schülerinnen und Schüler</p>
+                <h2 id="info-heading">Ein persönlicher Zugang pro Person</h2>
+            </div>
+            <div class="info-grid">
+                <article class="info-card">
+                    <h3>Eigene Inhalte</h3>
+                    <p>Nach dem Login werden ausschließlich die Daten und Freigaben des angemeldeten Kontos angezeigt.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Sichere Anmeldung</h3>
+                    <p>Passwörter werden nicht im Klartext gespeichert. Die Anmeldung nutzt Hashes und geschützte Sessions.</p>
+                </article>
+                <article class="info-card">
+                    <h3>Anpassbares Theme</h3>
+                    <p>Name, Farben, Logo und Hinweise werden zentral über die Konfigurationsdatei gepflegt.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

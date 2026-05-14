@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editor | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/editor.js?v=00.00.22" defer></script>
+</head>
+<body data-page="editor">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="projekte.html" aria-current="page">Projekte</a>
+            <a href="profil.html">Profil</a>
+            <a href="einstellungen.html">Einstellungen</a>
+            <button class="nav-button" type="button" data-logout>Abmelden</button>
+        </nav>
+    </header>
+
+    <main class="editor-page">
+        <section class="editor-titlebar" aria-labelledby="editor-heading">
+            <div>
+                <p class="eyebrow">Webpage-Editor</p>
+                <h1 id="editor-heading">Projekt laden</h1>
+                <p id="editor-subtitle">Dateien werden vorbereitet.</p>
+            </div>
+            <div class="editor-window-actions">
+                <span class="status-pill" id="editor-status">Lade</span>
+                <a class="button secondary compact" id="editor-open-site" href="#" target="_blank" rel="noopener" aria-disabled="true">Anzeigen</a>
+                <button class="button primary compact" type="button" id="editor-save">Speichern</button>
+            </div>
+        </section>
+
+        <section class="editor-workspace" aria-label="Projektdateien und Code">
+            <aside class="file-sidebar" aria-label="Dateiexplorer">
+                <div class="file-sidebar-head">
+                    <div class="file-sidebar-title-row">
+                        <h2>Dateien</h2>
+                        <div class="file-sidebar-actions">
+                            <button class="button subtle compact" type="button" id="editor-add-folder">Ordner</button>
+                            <button class="button subtle compact" type="button" id="editor-add-file">Datei</button>
+                            <button class="button subtle compact" type="button" id="editor-import-folder">Upload</button>
+                        </div>
+                    </div>
+                    <label class="file-create-field" for="editor-new-path">
+                        <span>Pfad</span>
+                        <input id="editor-new-path" type="text" placeholder="assets/css oder assets/app.js" autocomplete="off">
+                    </label>
+                    <input class="visually-hidden" id="editor-folder-upload" type="file" webkitdirectory directory multiple>
+                </div>
+                <div class="file-tree" id="editor-file-tree" role="tree" aria-live="polite"></div>
+            </aside>
+
+            <section class="editor-main-pane" aria-label="Codebereich">
+                <div class="editor-tabs editor-tabs-light" id="editor-file-tabs" role="tablist" aria-label="Geöffnete Dateien"></div>
+                <textarea class="code-area editor-code-area" id="editor-code" spellcheck="false" aria-label="Code-Editor"></textarea>
+                <div class="editor-bottom-bar">
+                    <p class="form-message" id="editor-message" aria-live="polite"></p>
+                    <button class="button subtle compact" type="button" id="editor-reload">Neu laden</button>
+                </div>
+            </section>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Einstellungen | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/dashboard.js?v=00.00.22" defer></script>
+</head>
+<body data-page="einstellungen">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="projekte.html">Projekte</a>
+            <a href="profil.html">Profil</a>
+            <a href="einstellungen.html" aria-current="page">Einstellungen</a>
+            <button class="nav-button" type="button" data-logout>Abmelden</button>
+        </nav>
+    </header>
+
+    <main class="app-shell">
+        <section class="welcome-band" aria-labelledby="settings-heading">
+            <div>
+                <p class="eyebrow">Portal-Konfiguration</p>
+                <h1 id="settings-heading">Einstellungen</h1>
+                <p>Wähle hier deine persönlichen Portal-Farben. Die Einstellung gilt nur für dein Benutzerkonto.</p>
+            </div>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Einstellungen">
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Schule</h2>
+                </div>
+                <dl class="data-list">
+                    <div>
+                        <dt>Name</dt>
+                        <dd data-config="schoolName">-</dd>
+                    </div>
+                    <div>
+                        <dt>Registrierung</dt>
+                        <dd id="registration-state">-</dd>
+                    </div>
+                    <div>
+                        <dt>Version</dt>
+                        <dd data-config="portalVersion">-</dd>
+                    </div>
+                    <div>
+                        <dt>Angemeldet als</dt>
+                        <dd data-user="username">-</dd>
+                    </div>
+                </dl>
+            </article>
+
+            <article class="panel wide">
+                <div class="panel-heading">
+                    <h2>Eigene Farben</h2>
+                </div>
+                <form class="theme-form" id="theme-form" novalidate>
+                    <div class="theme-color-grid">
+                        <label class="theme-color-field" for="theme-primary">
+                            <span>Primärfarbe</span>
+                            <input id="theme-primary" name="primary" type="color" value="#2563eb">
+                            <code id="theme-primary-value">#2563eb</code>
+                        </label>
+                        <label class="theme-color-field" for="theme-secondary">
+                            <span>Sekundärfarbe</span>
+                            <input id="theme-secondary" name="secondary" type="color" value="#0f9f6e">
+                            <code id="theme-secondary-value">#0f9f6e</code>
+                        </label>
+                        <label class="theme-color-field" for="theme-accent">
+                            <span>Akzentfarbe</span>
+                            <input id="theme-accent" name="accent" type="color" value="#f97316">
+                            <code id="theme-accent-value">#f97316</code>
+                        </label>
+                        <label class="theme-color-field" for="theme-background">
+                            <span>Hintergrund</span>
+                            <input id="theme-background" name="background" type="color" value="#f4f1ea">
+                            <code id="theme-background-value">#f4f1ea</code>
+                        </label>
+                        <label class="theme-color-field" for="theme-surface">
+                            <span>Flächen</span>
+                            <input id="theme-surface" name="surface" type="color" value="#ffffff">
+                            <code id="theme-surface-value">#ffffff</code>
+                        </label>
+                        <label class="theme-color-field" for="theme-text">
+                            <span>Text</span>
+                            <input id="theme-text" name="text" type="color" value="#111827">
+                            <code id="theme-text-value">#111827</code>
+                        </label>
+                    </div>
+                    <div class="theme-preview" id="theme-preview" aria-label="Aktive Theme-Farben"></div>
+                    <div class="form-actions tight">
+                        <button class="button primary" type="submit">Farben speichern</button>
+                        <button class="button subtle" type="button" id="theme-reset">Standardfarben</button>
+                    </div>
+                    <p class="form-message" id="theme-message" aria-live="polite"></p>
+                </form>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

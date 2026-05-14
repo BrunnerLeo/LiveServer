@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projekte | Liveserver Website</title>
+    <link rel="stylesheet" href="../css/style.css?v=00.00.22">
+    <script src="../js/api.js?v=00.00.22" defer></script>
+    <script src="../js/projects.js?v=00.00.22" defer></script>
+</head>
+<body data-page="projekte">
+    <header class="site-header">
+        <a class="brand" href="../../index.html" aria-label="Startseite">
+            <span class="brand-mark" aria-hidden="true">LS</span>
+            <img class="brand-logo" data-config-logo alt="">
+            <span class="brand-text" data-config="schoolName">Liveserver Website</span>
+        </a>
+        <nav class="top-nav" aria-label="Hauptnavigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="projekte.html" aria-current="page">Projekte</a>
+            <a href="profil.html">Profil</a>
+            <a href="einstellungen.html">Einstellungen</a>
+            <button class="nav-button" type="button" data-logout>Abmelden</button>
+        </nav>
+    </header>
+
+    <main class="app-shell">
+        <section class="welcome-band" aria-labelledby="projects-heading">
+            <div>
+                <p class="eyebrow">Projekt-Konsole</p>
+                <h1 id="projects-heading">Projekte</h1>
+                <p>Veröffentliche Dateien oder gehostete Websites, steuere Freigaben und räume alte Projekte direkt auf.</p>
+            </div>
+            <div class="project-pulse" aria-label="Projektstatus">
+                <div class="status-pill" id="project-status">Bereit</div>
+                <div class="pulse-metrics">
+                    <span><strong id="metric-total">0</strong> Projekte</span>
+                    <span><strong id="metric-owned">0</strong> eigene</span>
+                    <span><strong id="metric-webpages">0</strong> Webpages</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-grid projects-layout" aria-label="Projektverwaltung">
+            <article class="panel">
+                <div class="panel-heading">
+                    <h2>Neues Projekt</h2>
+                </div>
+
+                <form class="form-stack" id="project-form" enctype="multipart/form-data" novalidate>
+                    <div class="field-group">
+                        <label for="project-title">Titel</label>
+                        <input id="project-title" name="title" type="text" maxlength="150" required>
+                        <p class="field-error" id="project-title-error" aria-live="polite"></p>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="project-type">Typ</label>
+                        <select id="project-type" name="type" required>
+                            <option value="file">Datei</option>
+                            <option value="webpage">Webpage</option>
+                        </select>
+                        <p class="field-hint">Bei Webpage wählst du nur index.html und weitere Top-Level-Dateien. Unterordner lädst du danach im Editor hoch.</p>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="project-visibility">Sichtbarkeit</label>
+                        <select id="project-visibility" name="visibility" required>
+                            <option value="private">Privat</option>
+                            <option value="public">Public</option>
+                            <option value="shared">Shared</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group" id="public-permission-field" hidden>
+                        <label for="public-permission">Public-Zugriff</label>
+                        <select id="public-permission" name="publicPermission">
+                            <option value="read">Read only</option>
+                            <option value="write">Bearbeiten erlaubt</option>
+                        </select>
+                    </div>
+
+                    <input id="upload-kind" name="uploadKind" type="hidden" value="single">
+
+                    <div class="field-group" id="single-file-field">
+                        <label for="project-file" id="project-file-label">Datei</label>
+                        <input id="project-file" name="projectFiles[]" type="file">
+                        <p class="field-hint" id="single-file-hint">Die Datei wird geschützt gespeichert und nur per Projektzugriff ausgeliefert.</p>
+                        <p class="field-error" id="project-file-error" aria-live="polite"></p>
+                        <div class="file-preview" id="single-file-summary" aria-live="polite"></div>
+                    </div>
+
+                    <section class="code-workbench" id="code-workbench" hidden aria-labelledby="code-editor-heading">
+                        <div class="workbench-head">
+                            <div>
+                                <p class="eyebrow">Code-Editor</p>
+                                <h3 id="code-editor-heading">Webpage direkt bauen</h3>
+                            </div>
+                            <div class="editor-switch" role="group" aria-label="Webpage-Quelle">
+                                <button class="icon-button active" type="button" data-webpage-mode="upload">Upload</button>
+                                <button class="icon-button" type="button" data-webpage-mode="editor">Editor</button>
+                            </div>
+                        </div>
+
+                        <div class="editor-shell" id="editor-shell" hidden>
+                            <div class="editor-tabs" role="tablist" aria-label="Dateien">
+                                <button class="editor-tab active" type="button" data-editor-file="index.html">index.html</button>
+                                <button class="editor-tab" type="button" data-editor-file="style.css">style.css</button>
+                                <button class="editor-tab" type="button" data-editor-file="script.js">script.js</button>
+                            </div>
+                            <textarea class="code-area" id="code-editor" spellcheck="false" aria-label="Code-Editor"></textarea>
+                            <div class="editor-actions">
+                                <button class="button subtle compact" type="button" id="code-reset">Starter-Code</button>
+                                <button class="button primary compact" type="button" id="code-save-project">Als Webpage speichern</button>
+                            </div>
+                            <p class="field-error" id="code-editor-error" aria-live="polite"></p>
+                            <div class="code-preview">
+                                <div class="html-preview-header">
+                                    <strong>Live-Vorschau</strong>
+                                    <span id="code-preview-state">Bereit</span>
+                                </div>
+                                <iframe id="code-preview-frame" title="Code-Vorschau" sandbox="allow-scripts"></iframe>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="field-group" id="shared-field" hidden>
+                        <label for="shared-usernames">Shared Usernames</label>
+                        <input id="shared-usernames" name="sharedUsernames" type="text" placeholder="max.mustermann, anna.beispiel">
+                        <p class="field-hint">Kommagetrennte Benutzernamen.</p>
+                        <div class="shared-permission-list" id="shared-permissions"></div>
+                        <p class="field-error" id="shared-usernames-error" aria-live="polite"></p>
+                    </div>
+
+                    <div class="form-actions tight">
+                        <button class="button primary" type="submit" id="project-submit">Projekt erstellen</button>
+                        <button class="button subtle" type="button" id="project-draft-save">Entwurf merken</button>
+                        <button class="button subtle" type="button" id="project-draft-load">Entwurf laden</button>
+                    </div>
+                    <p class="form-message" id="project-message" aria-live="polite"></p>
+                </form>
+            </article>
+
+            <article class="panel wide">
+                <div class="panel-heading">
+                    <h2>Verfügbare Projekte</h2>
+                    <span class="count-badge" id="project-count">0</span>
+                </div>
+                <div class="project-toolbar" aria-label="Projektfilter">
+                    <div class="field-group">
+                        <label for="project-search">Suche</label>
+                        <input id="project-search" type="search" placeholder="Titel, Besitzer, Freigabe">
+                    </div>
+                    <div class="field-group">
+                        <label for="project-type-filter">Typ</label>
+                        <select id="project-type-filter">
+                            <option value="all">Alle</option>
+                            <option value="file">Dateien</option>
+                            <option value="webpage">Webpages</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="project-visibility-filter">Sichtbarkeit</label>
+                        <select id="project-visibility-filter">
+                            <option value="all">Alle</option>
+                            <option value="private">Privat</option>
+                            <option value="shared">Shared</option>
+                            <option value="public">Public</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="project-sort">Sortierung</label>
+                        <select id="project-sort">
+                            <option value="manual">Manuell</option>
+                            <option value="newest">Neueste zuerst</option>
+                            <option value="title">Titel A-Z</option>
+                            <option value="owner">Besitzer A-Z</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="project-list" id="project-list" aria-live="polite">
+                    <p class="empty-state">Projekte werden geladen.</p>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
+</html>
