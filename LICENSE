@@ -1,21 +1,97 @@
-MIT License
+Liveserver Source-Available Non-Commercial License v1.0
 
-Copyright (c) 2026 Liveserver contributors
+Copyright (c) 2026 Leo Brunner.
+Alle Rechte vorbehalten, soweit diese Lizenz nicht ausdrücklich etwas anderes erlaubt.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Diese Lizenz regelt die Nutzung des Liveserver-Quellcodes und der zugehörigen Dateien
+("Software"). Der Quellcode bleibt Eigentum des Rechteinhabers. Durch Kopieren,
+Herunterladen, Installieren, Ausführen, Verändern oder Hosten der Software akzeptierst
+du diese Lizenzbedingungen.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Erlaubte Nutzung
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Du darfst die Software unentgeltlich:
+
+- lesen, prüfen und lokal speichern;
+- für eigene nicht-kommerzielle Zwecke installieren und selbst hosten;
+- für private, schulische, gemeinnützige oder interne Lern- und Testzwecke nutzen;
+- für den eigenen nicht-kommerziellen Betrieb anpassen;
+- forken oder kopieren, soweit dies der Fehlerbehebung, Prüfung oder Einreichung von
+  Beiträgen zum offiziellen Projekt dient.
+
+2. Kommerzielle Nutzung
+
+Kommerzielle Nutzung ist ohne vorherige schriftliche Lizenzvereinbarung verboten.
+
+Als kommerzielle Nutzung gilt insbesondere:
+
+- Verkauf, Vermietung, Lizenzierung oder Weiterverkauf der Software;
+- Betrieb der Software als kostenpflichtiger Dienst, SaaS, Hosting-Angebot oder
+  Bestandteil eines kostenpflichtigen Produkts;
+- Nutzung der Software zur direkten Gewinnerzielung;
+- Einbindung in kommerzielle Plattformen, Agenturleistungen, Kundenprojekte oder
+  Beratungsleistungen;
+- entgeltliche Weitergabe, entgeltliche Wartung oder entgeltlicher Support auf Basis
+  dieser Software.
+
+Kommerzielle Nutzung ist nur durch lizenzierte Partner erlaubt. Lizenzierte Partner
+benötigen eine separate schriftliche Vereinbarung mit dem Rechteinhaber.
+
+3. Weitergabe und Veröffentlichung
+
+Du darfst unveränderte Kopien der Software nur weitergeben, wenn:
+
+- diese Lizenz vollständig enthalten bleibt;
+- Copyright-Hinweise nicht entfernt oder verändert werden;
+- klar erkennbar bleibt, dass der Code dem Rechteinhaber gehört;
+- keine kommerzielle Nutzung daraus entsteht.
+
+Veränderte Versionen dürfen ohne vorherige schriftliche Zustimmung nicht öffentlich
+als eigenes Projekt veröffentlicht, verkauft, vermietet, als Dienst angeboten oder
+unter einer anderen Lizenz weitergegeben werden. Beiträge zum offiziellen Projekt,
+zum Beispiel über Pull Requests, sind erlaubt.
+
+4. Kein Eigentumsübergang
+
+Diese Lizenz überträgt kein Eigentum am Code. Alle Urheberrechte, Markenrechte,
+Projektbezeichnungen, Logos und sonstigen Rechte verbleiben beim Rechteinhaber,
+soweit nicht ausdrücklich schriftlich etwas anderes vereinbart wurde.
+
+5. Namens- und Markenverwendung
+
+Du darfst den Namen "Liveserver" nur verwenden, um auf diese Software oder eine
+eigene selbst gehostete Installation hinzuweisen. Du darfst nicht den Eindruck
+erwecken, deine Version sei offiziell, vom Rechteinhaber betrieben oder von ihm
+freigegeben, sofern dies nicht schriftlich bestätigt wurde.
+
+6. Sicherheits- und Datenschutzpflichten
+
+Wenn du die Software selbst hostest, bist du für Konfiguration, Sicherheit,
+Datenschutz, Backups, Updates und rechtliche Anforderungen deiner Installation
+selbst verantwortlich. Insbesondere musst du sicherstellen, dass Datenbank,
+Uploads und Logs nicht ungeschützt öffentlich zugänglich sind.
+
+7. Keine Gewährleistung
+
+Die Software wird ohne Gewährleistung bereitgestellt. Es gibt keine Garantie für
+Fehlerfreiheit, Sicherheit, Verfügbarkeit, Eignung für einen bestimmten Zweck oder
+Kompatibilität mit bestimmten Systemen.
+
+8. Haftungsbeschränkung
+
+Der Rechteinhaber haftet nicht für Schäden, Datenverlust, Sicherheitsvorfälle,
+Betriebsunterbrechungen, entgangenen Gewinn oder sonstige Folgen, die aus Nutzung,
+Nichtnutzung, Installation, Veränderung, Hosting oder Weitergabe der Software
+entstehen, soweit zwingendes Recht nichts anderes vorschreibt.
+
+9. Beendigung
+
+Bei Verstoß gegen diese Lizenz endet deine Nutzungserlaubnis automatisch. Du musst
+dann die Nutzung, Weitergabe und das Hosting der Software einstellen und alle nicht
+erlaubten Kopien entfernen.
+
+10. Separate Vereinbarungen
+
+Schriftliche Partner-, Kunden- oder kommerzielle Lizenzvereinbarungen können von
+dieser Lizenz abweichen. In diesem Fall gelten für den jeweiligen Partner die
+Bedingungen der separaten schriftlichen Vereinbarung.
