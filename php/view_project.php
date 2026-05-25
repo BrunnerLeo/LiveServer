@@ -204,6 +204,27 @@ function inject_webpage_base(string $html, int $projectId, string $currentPath):
     return rewrite_hosted_site_html_urls($baseTag . $html, $projectId);
 }
 
+function inject_webpage_auto_refresh(string $html, array $project): string
+{
+    if (normalize_site_refresh_mode((string) ($project['site_refresh_mode'] ?? 'manual')) !== 'auto') {
+        return $html;
+    }
+
+    $seconds = normalize_site_refresh_seconds($project['site_refresh_seconds'] ?? 5);
+    $milliseconds = $seconds * 1000;
+    $script = '<script data-liveserver-auto-refresh>(function(){window.setTimeout(function(){window.location.reload();},' . $milliseconds . ');})();</script>';
+
+    if (stripos($html, 'data-liveserver-auto-refresh') !== false) {
+        return $html;
+    }
+
+    if (stripos($html, '</body>') !== false) {
+        return preg_replace('/<\/body>/i', $script . '</body>', $html, 1) ?? ($html . $script);
+    }
+
+    return $html . $script;
+}
+
 function rewrite_hosted_site_absolute_url(string $url, int $projectId): string
 {
     $url = trim($url);
@@ -274,13 +295,19 @@ function stream_webpage_file(array $file, array $project): void
 {
     $filePath = resolve_project_file_path($file);
     $mimeType = webpage_content_type($file);
+    $siteAutoRefresh = normalize_site_refresh_mode((string) ($project['site_refresh_mode'] ?? 'manual')) === 'auto';
 
     header('Content-Type: ' . $mimeType);
     header('X-Content-Type-Options: nosniff');
+    if ($siteAutoRefresh) {
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+    }
 
     if (strncmp($mimeType, 'text/html', 9) === 0) {
         $html = (string) file_get_contents($filePath);
         $html = inject_webpage_base($html, (int) $project['id'], get_webpage_public_file_path($file, $project));
+        $html = inject_webpage_auto_refresh($html, $project);
         header('Content-Length: ' . (string) strlen($html));
         echo $html;
         exit;
@@ -315,6 +342,8 @@ try {
     if (!user_can_access_project($project, $user)) {
         render_project_error($user === null ? 'Bitte melde dich an, um dieses Projekt zu öffnen.' : 'Du hast keinen Zugriff auf dieses Projekt.', $user === null ? 401 : 403);
     }
+
+    $project = smb_sync_project_for_read($project);
 
     if ((string) $project['type'] === 'webpage') {
         if (!uses_webpage_path_route()) {

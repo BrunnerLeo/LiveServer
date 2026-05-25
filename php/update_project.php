@@ -13,7 +13,6 @@ try {
     $projectId = (int) ($input['id'] ?? 0);
     $visibility = (string) ($input['visibility'] ?? '');
     $sharedRaw = (string) ($input['sharedUsernames'] ?? '');
-    $publicPermission = normalize_project_permission((string) ($input['publicPermission'] ?? 'read'));
 
     if ($projectId <= 0) {
         json_response([
@@ -30,14 +29,19 @@ try {
     }
 
     $project = require_project_owner($projectId, $user);
-    $sharedUsernames = $visibility === 'shared' ? normalize_shared_usernames($sharedRaw) : [];
+    $publicPermission = normalize_project_permission((string) ($input['publicPermission'] ?? ($project['public_permission'] ?? 'read')));
+    $siteRefreshMode = normalize_site_refresh_mode((string) ($input['siteRefreshMode'] ?? ($project['site_refresh_mode'] ?? 'manual')));
+    $siteRefreshSeconds = normalize_site_refresh_seconds($input['siteRefreshSeconds'] ?? ($project['site_refresh_seconds'] ?? 5));
+    $sharedTargets = $visibility === 'shared' ? normalize_shared_targets($sharedRaw, $user, (string) $project['type']) : ['usernames' => [], 'classes' => []];
+    $sharedUsernames = $sharedTargets['usernames'];
+    $sharedClassIds = array_map(static fn (array $class): int => (int) $class['id'], $sharedTargets['classes']);
     $sharedPermissions = $visibility === 'shared'
-        ? normalize_shared_permissions($input['sharedPermissions'] ?? [], $sharedUsernames)
-        : [];
-    if ($visibility === 'shared' && $sharedUsernames === []) {
+        ? normalize_shared_target_permissions($input['sharedPermissions'] ?? [], $sharedTargets)
+        : ['usernames' => [], 'classes' => []];
+    if ($visibility === 'shared' && $sharedUsernames === [] && $sharedClassIds === []) {
         json_response([
             'success' => false,
-            'message' => 'Bitte gib mindestens einen Shared-Benutzernamen ein.',
+            'message' => 'Bitte gib mindestens einen Benutzernamen oder eine Klasse ein.',
         ], 400);
     }
 
@@ -47,7 +51,11 @@ try {
         $visibility,
         $sharedUsernames,
         $publicPermission,
-        $sharedPermissions
+        $sharedPermissions['usernames'],
+        (string) $project['type'] === 'webpage' ? $siteRefreshMode : 'manual',
+        $siteRefreshSeconds,
+        $sharedClassIds,
+        $sharedPermissions['classes']
     );
 
     json_response([

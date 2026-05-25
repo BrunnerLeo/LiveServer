@@ -116,10 +116,6 @@ try {
         download_error($user === null ? 'Login erforderlich.' : 'Kein Zugriff auf dieses Projekt.', $user === null ? 401 : 403);
     }
 
-    if ((string) $project['type'] !== 'file') {
-        download_error('Dieses Projekt enthält keine Datei.', 400);
-    }
-
     $files = get_project_files($project);
     if ($files === []) {
         download_error('Datei wurde nicht gefunden.', 404);

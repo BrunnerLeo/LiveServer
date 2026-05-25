@@ -1,114 +1,53 @@
-# Liveserver
+# Digital Lerning Initiativ Liveserver
 
-Version: `00.00.22`
+Bereinigte GitHub-Version des DLI Liveservers.
 
-Liveserver ist eine schlanke Schul-Webanwendung mit Login, persönlichem Dashboard, Projektverwaltung, Datei-Uploads und gehosteten Webpage-Projekten. Das Frontend liegt als statisches HTML/CSS/JS im Ordner `public`, das Backend besteht aus PHP-Endpunkten mit SQLite als lokaler Datenbank.
+## Enthalten
 
-## Status
+- PHP-Backend unter `php/`
+- Frontend unter `public/`
+- Beispielkonfiguration unter `config/settings.json`
+- leere Laufzeitordner mit `.gitkeep`
 
-Diese Ausgabe ist als Pushready-/Open-Source-Paket vorbereitet. Laufzeitdaten sind nicht enthalten:
+Nicht enthalten sind Projektdateien, Uploads, Logs, Runtime-Jobs, Samba-Projektordner oder produktive SQLite-Datenbanken.
 
-- keine SQLite-Datenbankdatei
-- keine hochgeladenen Projektdateien
-- keine Logdateien
-- keine macOS-Metadaten
+## Standard-Login
 
-Die benötigten Ordner bleiben mit `.htaccess` und `.gitkeep` erhalten.
+Beim ersten Start legt die Anwendung automatisch den Admin-Benutzer an:
 
-## Hauptfunktionen
+- Benutzername: `admin`
+- Passwort: `admin123`
 
-- Benutzerregistrierung, Login, Logout und Session-Prüfung
-- persönliche Profile und eigene Benutzerfarben
-- Dashboard mit Projektaktivitäten
-- Projektverwaltung für Dateien und Webpages
-- Sichtbarkeit `private`, `shared` und `public`
-- Lese-/Schreibrechte für öffentliche und geteilte Webpage-Projekte
-- Upload von Einzeldateien, Ordnern und Webpage-Projekten mit `index.html`
-- separater Webpage-Code-Editor mit Datei- und Ordnerlöschung
-- gehostete Webpage-Auslieferung über `site.php`
-- SQLite-Schema-Migrationen beim Start
-- abgesperrte Ordner für Datenbank, Uploads und Logs
+Das Passwort sollte direkt nach der Installation geändert werden.
 
-## Schnellstart mit Docker
+## Installation
 
-```bash
-docker compose up --build
-```
+1. Repository in den Webroot kopieren.
+2. PHP mit SQLite, cURL, mbstring und Zip bereitstellen.
+3. Schreibrechte für diese Ordner setzen:
+   - `database/`
+   - `logs/`
+   - `uploads/projects/`
+   - `runtime/jobs/`
+   - `smb/projects/`
+4. Webserver so konfigurieren, dass `database/`, `logs/`, `uploads/`, `runtime/`, `smb/` und `config/` nicht direkt öffentlich ausgeliefert werden.
+5. `index.html` im Browser öffnen und mit `admin` / `admin123` anmelden.
 
-Danach öffnen:
+## KI-Konfiguration
 
-```text
-http://localhost:8080/
-```
+In dieser GitHub-Version sind ARIS/Jenny standardmäßig deaktiviert und auf lokale OpenAI-kompatible Platzhalter gesetzt:
 
-Der Health-Check liegt unter:
+- `http://localhost:8080/v1`
+- `http://127.0.0.1:8080/v1`
+- `http://localhost:11434/v1`
+- `http://127.0.0.1:11434/v1`
 
-```text
-http://localhost:8080/php/health.php
-```
+Es sind keine Tailnet-Hosts, keine API-Keys und keine produktiven AI-small-Verweise enthalten.
 
-## Installation auf Ubuntu/Debian
+## Daten
 
-```bash
-chmod +x install.sh
-SERVER_NAME=schule.example.org HTTP_PORT=80 ./install.sh
-```
+Die SQLite-Datenbank wird beim ersten Zugriff unter `database/liveserver.sqlite` erstellt. Diese Datei ist in `.gitignore` ausgeschlossen und soll nicht mitcommitted werden.
 
-Das Skript installiert Apache, PHP, SQLite und ZIP-Unterstützung, erstellt die Apache-Site und setzt Schreibrechte auf:
+## Samba
 
-- `database`
-- `uploads`
-- `logs`
-
-Weitere Details stehen in [docs/INSTALLATION.md](docs/INSTALLATION.md).
-
-## Konfiguration
-
-Die Anwendung liest ihre Konfiguration aus:
-
-```text
-config/settings.json
-```
-
-Vorlagen:
-
-- `config/settings.example.json`
-- `config/settings.production.example.json`
-
-Für HTTPS-Produktivbetrieb muss `security.secureCookie` auf `true` stehen. Öffentliche Registrierung sollte nur aktiviert bleiben, wenn sie wirklich gebraucht wird.
-
-## Dokumentation
-
-- [Installation](docs/INSTALLATION.md)
-- [API](docs/API.md)
-- [Architektur](docs/ARCHITECTURE.md)
-- [Datenbank](docs/DATABASE.md)
-- [Sicherheit](docs/SECURITY.md)
-- [Betrieb](docs/OPERATIONS.md)
-- [Release-Checkliste](docs/RELEASE_CHECKLIST.md)
-- [Ausführliches Sicherheitskonzept](Konzepts/Sicherheitskonzept.md)
-- [Sicherheitskonzept light](Konzepts/Sicherheitskonzept-light.md)
-
-## Entwicklung
-
-```bash
-node --check public/js/*.js
-bash -n install.sh
-python3 -m json.tool config/settings.json >/dev/null
-```
-
-Wenn PHP lokal installiert ist:
-
-```bash
-find php -name '*.php' -print0 | xargs -0 -n1 php -l
-```
-
-Die gleichen Basiskontrollen laufen in GitHub Actions.
-
-## Sicherheit
-
-Bitte lies vor einem öffentlichen Deployment mindestens [SECURITY.md](SECURITY.md) und [docs/SECURITY.md](docs/SECURITY.md). Besonders wichtig ist die Trennung zwischen Anwendung, Upload-Speicher und gehosteten Schüler-Webpages.
-
-## Lizenz
-
-MIT, siehe [LICENSE](LICENSE).
+Samba-Sync und User-Provisioning sind in `config/settings.json` standardmäßig deaktiviert. Für produktiven Einsatz müssen die Helper-Pfade und Serverrechte bewusst konfiguriert werden.

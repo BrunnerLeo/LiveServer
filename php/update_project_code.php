@@ -31,11 +31,15 @@ function code_editor_mime_type(string $path): string
         'htm' => 'text/html; charset=utf-8',
         'css' => 'text/css; charset=utf-8',
         'js' => 'text/javascript; charset=utf-8',
+        'mjs' => 'text/javascript; charset=utf-8',
         'json' => 'application/json; charset=utf-8',
         'svg' => 'image/svg+xml',
         'xml' => 'application/xml; charset=utf-8',
         'md' => 'text/markdown; charset=utf-8',
         'txt' => 'text/plain; charset=utf-8',
+        'java' => 'text/x-java-source; charset=utf-8',
+        'c' => 'text/x-csrc; charset=utf-8',
+        'h' => 'text/x-chdr; charset=utf-8',
         'png' => 'image/png',
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
@@ -177,6 +181,7 @@ try {
     $binaryFiles = is_array($input['binaryFiles'] ?? null) ? $input['binaryFiles'] : [];
     $folders = is_array($input['folders'] ?? null) ? $input['folders'] : [];
     $deletedPaths = is_array($input['deletedPaths'] ?? null) ? $input['deletedPaths'] : [];
+    $entryFileInput = (string) ($input['entryFile'] ?? '');
 
     if ($projectId <= 0) {
         json_response([
@@ -185,7 +190,7 @@ try {
         ], 404);
     }
 
-    if ($files === [] && $binaryFiles === [] && $deletedPaths === [] && $folders === []) {
+    if ($files === [] && $binaryFiles === []) {
         json_response([
             'success' => false,
             'message' => 'Keine Dateien zum Speichern erhalten.',
@@ -193,6 +198,8 @@ try {
     }
 
     $project = require_project_edit_access($projectId, $user);
+    $project = smb_sync_project_for_read($project);
+    $projectType = (string) $project['type'];
 
     $existingFiles = code_editor_existing_file_map($project);
     $totalSize = 0;
@@ -311,8 +318,18 @@ try {
     ]);
     replace_project_folders($pdo, (int) $project['id'], collect_project_folder_paths(get_project_files($project), $folders));
 
+    if (is_runtime_project_type($projectType)) {
+        $currentRuntimeConfig = project_runtime_config($project);
+        $entryFile = normalize_runtime_entry_file(
+            $projectType,
+            $entryFileInput !== '' ? $entryFileInput : (string) ($currentRuntimeConfig['entryFile'] ?? default_runtime_entry_file($projectType))
+        );
+        update_project_runtime_config((int) $project['id'], $projectType, ['entryFile' => $entryFile]);
+    }
+
     $updatedProject = find_project_by_id((int) $project['id']);
-    $publicProject = public_project($updatedProject ?: $project, $user);
+    $updatedProject = smb_sync_project_after_save($updatedProject ?: $project);
+    $publicProject = public_project($updatedProject, $user);
     json_response([
         'success' => true,
         'message' => 'Projekt wurde im Editor gespeichert.',

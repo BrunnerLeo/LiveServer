@@ -23,8 +23,20 @@ try {
         'pdoLoaded' => extension_loaded('pdo'),
         'sqliteLoaded' => extension_loaded('pdo_sqlite') || extension_loaded('sqlite3'),
         'zipLoaded' => class_exists('ZipArchive'),
+        'curlLoaded' => function_exists('curl_init'),
         'database' => database_health(),
         'uploads' => $uploadHealth,
+        'smb' => smb_sync_health(),
+        'runtimes' => runtime_health(),
+        'ai' => [
+            'enabled' => true,
+            'curlLoaded' => function_exists('curl_init'),
+            'providers' => array_keys(get_ai_provider_models()),
+            'localCoder' => [
+                'enabled' => get_ai_local_coder_settings()['enabled'],
+                'model' => get_ai_local_coder_settings()['model'],
+            ],
+        ],
         'schoolName' => (string) (($settings['school'] ?? [])['name'] ?? ''),
         'csrfToken' => ensure_csrf_token(),
     ]);
