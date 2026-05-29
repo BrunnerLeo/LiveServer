@@ -1,21 +1,21 @@
 {
-  "version": "00.00.22",
+  "version": "dli-00.01.16",
   "school": {
-    "name": "Liveserver Schule",
+    "name": "Digital Lerning Initiativ",
     "logo": ""
   },
   "theme": {
-    "primary": "#155eef",
-    "secondary": "#0f766e",
-    "accent": "#f59e0b",
-    "background": "#f7f9fc",
+    "primary": "#4b5563",
+    "secondary": "#7c8591",
+    "accent": "#2563eb",
+    "background": "#f4f5f7",
     "surface": "#ffffff",
-    "text": "#172033"
+    "text": "#111827"
   },
   "texts": {
-    "loginHint": "Melde dich mit deinem Schul-Benutzernamen und Passwort an. Bei Problemen wende dich bitte an das Sekretariat oder die IT-Betreuung.",
-    "signupHint": "Erstelle dein Schülerkonto. Dein Passwort wird sicher gehasht gespeichert.",
-    "publicIntro": "Sicherer Zugriff auf persönliche Schulmaterialien, Profildaten und freigegebene Inhalte."
+    "loginHint": "Melde dich an und arbeite dort weiter, wo dein letztes Projekt aufgehört hat.",
+    "signupHint": "Lege dein Konto an und sichere dir einen eigenen Bereich für Code, Dateien und Abgaben.",
+    "publicIntro": "Der zentrale Ort für digitale Unterrichtsprojekte: Dateien organisieren, Webseiten live testen und Ergebnisse sicher freigeben."
   },
   "registration": {
     "enabled": true,
@@ -23,7 +23,7 @@
   },
   "security": {
     "sessionName": "LIVESERVER_SESSION",
-    "secureCookie": false,
+    "secureCookie": true,
     "sameSite": "Strict",
     "showDetailedErrors": false
   },
@@ -34,7 +34,85 @@
   },
   "projects": {
     "uploadPath": "{PROJECT_ROOT}/uploads/projects",
-    "maxUploadBytes": 10485760
+    "maxUploadBytes": 41943040
+  },
+  "ai": {
+    "maxContextChars": 24000,
+    "maxPromptChars": 2000,
+    "models": {
+      "selfhosted": [
+        "aris",
+        "jenny",
+        "em-german-mistral",
+        "leolm-1.1b-german",
+        "qwen2.5-coder",
+        "llama3.1",
+        "codellama"
+      ]
+    },
+    "aiSmall": {
+      "baseUrl": "http://localhost:8080/v1",
+      "maxConcurrent": 1,
+      "highPriorityWaitSeconds": 180,
+      "lowPriorityWaitSeconds": 0
+    },
+    "localCoder": {
+      "enabled": false,
+      "baseUrl": "http://localhost:8080/v1",
+      "model": "aris",
+      "apiKey": ""
+    },
+    "jenny": {
+      "enabled": false,
+      "baseUrl": "http://localhost:8080/v1",
+      "model": "jenny",
+      "apiKey": "",
+      "maxPromptChars": 4000,
+      "maxTextChars": 12000,
+      "onlyWhenCapacity": true
+    },
+    "selfHostedAllowedBaseUrls": [
+      "http://localhost:8080/v1",
+      "http://127.0.0.1:8080/v1",
+      "http://localhost:11434/v1",
+      "http://127.0.0.1:11434/v1"
+    ]
+  },
+  "runtimes": {
+    "enabled": true,
+    "workspacePath": "{PROJECT_ROOT}/runtime/jobs",
+    "timeoutSeconds": 5,
+    "maxInputBytes": 16384,
+    "maxOutputBytes": 65536,
+    "maxSourceBytes": 1048576,
+    "maxMemoryKb": 524288,
+    "maxTasks": 128,
+    "javaMaxHeapMb": 96,
+    "javaMaxMemoryKb": 2097152,
+    "sandboxEnabled": true,
+    "bubblewrapBinary": "bwrap",
+    "sandboxReadonlyPaths": [
+      "/usr",
+      "/bin",
+      "/lib",
+      "/lib64",
+      "/etc/alternatives",
+      "/etc/java-17-openjdk",
+      "/etc/java-21-openjdk"
+    ],
+    "javaCompiler": "javac",
+    "javaBinary": "java",
+    "cCompiler": "gcc",
+    "timeoutBinary": "timeout"
+  },
+  "smb": {
+    "enabled": false,
+    "workspacePath": "{PROJECT_ROOT}/smb/projects",
+    "autoImport": false,
+    "autoExport": false,
+    "userProvisioning": false,
+    "provisionHelperPath": "",
+    "aclHelperPath": ""
   },
   "studentContent": {
     "default": [

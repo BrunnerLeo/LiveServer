@@ -40,6 +40,9 @@ try {
             ], 401);
         }
 
+        require_smb_supported_credentials((string) $user['username'], $newPassword);
+        provision_smb_user_credentials((string) $user['username'], $newPassword);
+
         $updatedUser = update_user_profile((int) $user['id'], $realname, hash_plain_password($newPassword));
     } else {
         $updatedUser = update_user_profile((int) $user['id'], $realname);

@@ -61,6 +61,9 @@ try {
         ], 409);
     }
 
+    require_smb_supported_credentials($username, $password);
+    provision_smb_user_credentials($username, $password);
+
     $user = create_user($username, hash_plain_password($password), $realname, 'student');
 
     session_regenerate_id(true);

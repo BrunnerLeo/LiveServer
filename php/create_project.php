@@ -141,26 +141,23 @@ try {
     require_post_request();
     require_csrf_token($_POST);
     $user = require_logged_in_user();
+    require_coding_user($user);
 
     $title = trim((string) ($_POST['title'] ?? ''));
-    $type = (string) ($_POST['type'] ?? '');
+    $type = normalize_project_type((string) ($_POST['type'] ?? ''));
     $uploadKind = (string) ($_POST['uploadKind'] ?? 'single');
     $visibility = (string) ($_POST['visibility'] ?? '');
+    $htmlContent = null;
     $sharedRaw = (string) ($_POST['sharedUsernames'] ?? '');
     $publicPermission = normalize_project_permission((string) ($_POST['publicPermission'] ?? 'read'));
+    $siteRefreshMode = normalize_site_refresh_mode((string) ($_POST['siteRefreshMode'] ?? 'manual'));
+    $siteRefreshSeconds = normalize_site_refresh_seconds($_POST['siteRefreshSeconds'] ?? 5);
     $titleLength = function_exists('mb_strlen') ? mb_strlen($title) : strlen($title);
 
     if ($title === '' || $titleLength > 150) {
         json_response([
             'success' => false,
             'message' => 'Bitte gib einen Titel mit maximal 150 Zeichen ein.',
-        ], 400);
-    }
-
-    if (!in_array($type, ['file', 'webpage'], true)) {
-        json_response([
-            'success' => false,
-            'message' => 'Ungültiger Projekttyp.',
         ], 400);
     }
 
@@ -175,14 +172,26 @@ try {
         ], 400);
     }
 
-    $sharedUsernames = $visibility === 'shared' ? normalize_shared_usernames($sharedRaw) : [];
+    $sharedTargets = $visibility === 'shared' ? normalize_shared_targets($sharedRaw, $user, $type) : ['usernames' => [], 'classes' => []];
+    $sharedUsernames = $sharedTargets['usernames'];
+    $sharedClassIds = array_map(static fn (array $class): int => (int) $class['id'], $sharedTargets['classes']);
     $sharedPermissions = $visibility === 'shared'
-        ? normalize_shared_permissions($_POST['sharedPermissions'] ?? [], $sharedUsernames)
-        : [];
+        ? normalize_shared_target_permissions($_POST['sharedPermissions'] ?? [], $sharedTargets)
+        : ['usernames' => [], 'classes' => []];
+    if ($visibility === 'shared' && $sharedUsernames === [] && $sharedClassIds === []) {
+        json_response([
+            'success' => false,
+            'message' => 'Bitte gib mindestens einen Benutzernamen oder eine Klasse ein.',
+        ], 400);
+    }
     $fileInfos = [];
     $movedFilePaths = [];
 
     if ($type === 'webpage') {
+        $uploadKind = 'folder';
+    }
+
+    if (is_runtime_project_type($type)) {
         $uploadKind = 'folder';
     }
 
@@ -222,11 +231,43 @@ try {
         }
 
         if (!$hasIndexHtml) {
+        json_response([
+            'success' => false,
+            'message' => 'Die Webpage-Dateien müssen eine index.html enthalten.',
+        ], 400);
+        }
+    }
+
+    $runtimeEntryFile = '';
+    if (is_runtime_project_type($type)) {
+        $sourceExtension = $type === 'java' ? 'java' : 'c';
+        $fallbackEntry = default_runtime_entry_file($type);
+        $firstSource = '';
+
+        foreach ($uploadedFiles as $uploadedFile) {
+            $relativePath = clean_relative_upload_path((string) $uploadedFile['relative_path']);
+            if (strtolower(pathinfo($relativePath, PATHINFO_EXTENSION)) !== $sourceExtension) {
+                continue;
+            }
+
+            if (strcasecmp($relativePath, $fallbackEntry) === 0) {
+                $firstSource = $relativePath;
+                break;
+            }
+
+            if ($firstSource === '') {
+                $firstSource = $relativePath;
+            }
+        }
+
+        if ($firstSource === '') {
             json_response([
                 'success' => false,
-                'message' => 'Die Webpage-Dateien müssen eine index.html enthalten.',
+                'message' => $type === 'java' ? 'Java-Projekte brauchen mindestens eine .java Datei.' : 'C-Projekte brauchen mindestens eine .c Datei.',
             ], 400);
         }
+
+        $runtimeEntryFile = normalize_runtime_entry_file($type, (string) ($_POST['entryFile'] ?? $firstSource));
     }
 
     ensure_project_upload_directory();
@@ -278,13 +319,20 @@ try {
         $title,
         $type,
         $visibility,
+        $htmlContent,
         $uploadKind,
         $fileInfos,
         $sharedUsernames,
         $publicPermission,
-        $sharedPermissions,
-        $postedFolderPaths
+        $sharedPermissions['usernames'],
+        $postedFolderPaths,
+        $type === 'webpage' ? $siteRefreshMode : 'manual',
+        $siteRefreshSeconds,
+        is_runtime_project_type($type) ? ['entryFile' => $runtimeEntryFile] : [],
+        $sharedClassIds,
+        $sharedPermissions['classes']
     );
+    $project = smb_sync_project_after_save($project);
 
     json_response([
         'success' => true,

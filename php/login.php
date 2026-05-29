@@ -28,6 +28,14 @@ try {
     }
 
     update_password_hash_if_needed($user, $password);
+    if (user_can_code($user)) {
+        try {
+            provision_smb_user_credentials((string) $user['username'], $password);
+        } catch (Throwable $exception) {
+            log_api_exception($exception);
+        }
+    }
+
     session_regenerate_id(true);
     $_SESSION['user_id'] = (int) $user['id'];
     $_SESSION['username'] = (string) $user['username'];

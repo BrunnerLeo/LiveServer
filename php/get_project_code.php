@@ -10,7 +10,7 @@ function code_editor_is_text_file(array $file): bool
     $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
     return strncmp($mime, 'text/', 5) === 0
-        || in_array($extension, ['html', 'htm', 'css', 'js', 'json', 'txt', 'md', 'svg', 'xml'], true);
+        || in_array($extension, ['html', 'htm', 'css', 'js', 'mjs', 'json', 'txt', 'md', 'svg', 'xml', 'java', 'c', 'h'], true);
 }
 
 function code_editor_resolve_file_path(array $file): string
@@ -62,6 +62,7 @@ try {
     }
 
     $project = require_project_editor_access($projectId, $user);
+    $project = smb_sync_project_for_read($project);
 
     $projectFiles = get_project_files($project);
     $rootPrefix = project_webpage_root_prefix($projectFiles);
@@ -82,13 +83,19 @@ try {
 
     $publicProject = public_project($project, $user);
 
+    $runtimeConfig = project_runtime_config($project);
+    $entryFile = (string) ($runtimeConfig['entryFile'] ?? '');
+    if ($entryFile === '' || !isset($files[$entryFile])) {
+        $entryFile = isset($files['index.html']) ? 'index.html' : (array_key_first($files) ?: '');
+    }
+
     json_response([
         'success' => true,
         'project' => $publicProject,
         'files' => $files,
         'assets' => code_editor_public_assets($publicProject, $files),
         'folders' => public_project_folders($project),
-        'entryFile' => isset($files['index.html']) ? 'index.html' : (array_key_first($files) ?: ''),
+        'entryFile' => $entryFile,
         'csrfToken' => ensure_csrf_token(),
     ]);
 } catch (Throwable $exception) {
